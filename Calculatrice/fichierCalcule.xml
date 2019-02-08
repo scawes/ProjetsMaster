@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Expression>
+	<PlusExp opg="E1" opd="p1"/>
+	<IntExp val="2" id="E1"/>
+	<IntExp val="3" id="E2"/>
+	<MultExp id="p1" opg="E3" opd="p2"/>
+	<IntExp val="2" id="E3"/>
+	<IntExp val="4" id="E4"/>
+	<MultExp id="p2" opg="E3" opd="E4"/>
+</Expression>

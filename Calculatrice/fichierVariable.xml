@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE Programme [<!ELEMENT Programme (Block|Definition|Affectation|SortieStandard|If|EgalExp|PlusExp|MultExp|VariableRef|IntExp|BoolExp|DoubleExp|StringExp)*>
+<!ELEMENT Block (ReferenceElement*)>
+	<!ATTLIST Block id CDATA #IMPLIED>
+<!ELEMENT ReferenceElement EMPTY>
+	<!ATTLIST ReferenceElement ref CDATA #REQUIRED>
+	
+<!ELEMENT Definition EMPTY>
+	<!ATTLIST Definition nom CDATA #REQUIRED type CDATA #REQUIRED visibilite CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT Affectation EMPTY>
+	<!ATTLIST Affectation var CDATA #REQUIRED op CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT SortieStandard EMPTY>
+	<!ATTLIST SortieStandard op CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT If EMPTY>
+	<!ATTLIST If cond CDATA #REQUIRED block CDATA #REQUIRED id CDATA #IMPLIED>
+	
+<!ELEMENT EgalExp EMPTY>
+	<!ATTLIST EgalExp opg CDATA #REQUIRED opd CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT PlusExp EMPTY>
+	<!ATTLIST PlusExp opg CDATA #REQUIRED opd CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT MultExp EMPTY>
+	<!ATTLIST MultExp opg CDATA #REQUIRED opd CDATA #REQUIRED id CDATA #IMPLIED>
+
+<!ELEMENT VariableRef EMPTY>
+	<!ATTLIST VariableRef nom CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT IntExp EMPTY>
+	<!ATTLIST IntExp val CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT BoolExp EMPTY>
+	<!ATTLIST BoolExp val CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT DoubleExp EMPTY>
+	<!ATTLIST DoubleExp val CDATA #REQUIRED id CDATA #IMPLIED>
+<!ELEMENT StringExp EMPTY>
+	<!ATTLIST StringExp val CDATA #REQUIRED id CDATA #IMPLIED>
+]>
+
+<Programme>
+<Definition nom="a" type="int" visibilite="public"/>
+
+<Affectation var="a" op="I4"/>
+<IntExp val="1" id="I4"/>
+
+<If cond="B1" block="Bl1"/>
+
+<EgalExp id="B1" opg="I1" opd="I2"/>
+<IntExp val="12" id="I1"/>
+<IntExp val="12" id="I2"/>
+
+<Block id="Bl1">
+	<ReferenceElement ref="D1"/>
+	<ReferenceElement ref="A2"/>
+	<ReferenceElement ref="A1"/>
+	<ReferenceElement ref="S1"/>
+</Block>
+
+<Definition id="D1" nom="b" type="int" visibilite="public"/>
+<Affectation id="A2" var="b" op="E4"/>
+<IntExp val="3" id="E4"/>
+
+<Affectation id="A1" var="a" op="E3"/>
+<IntExp val="2" id="E3"/>
+
+<SortieStandard op="V3"/>
+<VariableRef nom="a" id="V3"/>
+
+<SortieStandard id="S1" op="V4"/>
+<VariableRef nom="b" id="V4"/>
+</Programme>
