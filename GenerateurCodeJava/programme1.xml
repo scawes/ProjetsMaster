@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE model [<!ELEMENT model (entity*)>
+	<!ATTLIST model name CDATA #REQUIRED>
+<!ELEMENT entity (attribute*)>
+	<!ATTLIST entity name CDATA #REQUIRED>
+<!ELEMENT attribute (typeList|type)>
+	<!ATTLIST attribute name CDATA #REQUIRED>
+<!ELEMENT typeList (typeList|type)>
+	<!ATTLIST typeList type CDATA #REQUIRED>
+<!ELEMENT type EMPTY>
+	<!ATTLIST type type CDATA #REQUIRED >
+
+]>
+<model name="parser">
+	
+	<entity name="Satellite" subtype="Flotte">
+		<attribute name="nom">
+			<type type="String"/>
+		</attribute>
+		<attribute name="id">
+			<type type="Integer"/>
+		</attribute>
+		<attribute name="parent">
+			<type type="Flotte"/>
+		</attribute>
+		<attribute name="list">
+			<typeList type="Array">
+				<type type="Flotte"/>
+			</typeList>
+		</attribute>
+	</entity>
+	<entity name="Flotte">
+	</entity>
+	
+</model>
