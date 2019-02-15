@@ -1,7 +1,10 @@
 package genarate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import dependance.DependanceClass;
+import dependance.DependancePrimitive;
 import model.Attribute;
 import model.Entity;
 import model.Model;
@@ -19,22 +22,55 @@ public class VisitorVerification implements Visitor {
 
 	List<Entity> listHeritage;
 	List<String> listAttribute;
+	boolean result;
+	String details;
+	
+	public VisitorVerification () {
+		result	= true;
+		details	= "";
+	}
+	
+	public boolean getResult() {
+		return result;
+	}
+	public String getDetail() {
+		return details;
+	}
+	
 	@Override
 	public void visit(Attribute attribute) {
-		// TODO Auto-generated method stub
-
+		if(listAttribute.contains(attribute.getName())) {
+			result = false;
+			details += "Variable \""+attribute.getName()+"\" duppliqué\n";
+		} else {
+			listAttribute.add(attribute.getName());
+		}
 	}
 
 	@Override
 	public void visit(Model model) {
-		// TODO Auto-generated method stub
-
+		for(Entity entity:model.getListEntity()) {
+			listHeritage 	= new ArrayList<Entity>();
+			listAttribute 	= new ArrayList<String>();
+			entity.accept(this);
+		}
 	}
 
 	@Override
 	public void visit(Entity entity) {
-		// TODO Auto-generated method stub
-
+		if(listHeritage.contains(entity)) {
+			result = false;
+			details += "Class \""+entity.getName()+"\" heritage rebouclé\n";
+		} else {
+			listHeritage.add(entity);
+			entity.getHeritage().accept(this);
+			for(Attribute attribute:entity.getListAttribute()) {
+				attribute.accept(this);
+			}
+		}
+		
+		
+		
 	}
 
 	@Override
@@ -81,8 +117,19 @@ public class VisitorVerification implements Visitor {
 
 	@Override
 	public void visit(HeritageEntity heritageEntity) {
-		// TODO Auto-generated method stub
+		heritageEntity.getEntity().accept(this);
+	}
 
+	@Override
+	public void visit(DependancePrimitive dependancePrimitive) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(DependanceClass dependanceClass) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

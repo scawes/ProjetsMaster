@@ -1,5 +1,7 @@
 package visitor;
 
+import dependance.DependanceClass;
+import dependance.DependancePrimitive;
 import model.Attribute;
 import model.Entity;
 import model.Model;
@@ -35,6 +37,10 @@ public interface Visitor {
 	void visit(HeritageUndefind heritageUndefind);
 
 	void visit(HeritageEntity heritageEntity);
+
+	void visit(DependancePrimitive dependancePrimitive);
+
+	void visit(DependanceClass dependanceClass);
 
 	
 }

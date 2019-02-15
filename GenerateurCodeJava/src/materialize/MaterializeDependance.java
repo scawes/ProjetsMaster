@@ -5,6 +5,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import dependance.Dependance;
+import dependance.DependanceClass;
+import dependance.DependancePrimitive;
+import dependance.GestionDependance;
 import model.Attribute;
 import model.Entity;
 import model.Model;
@@ -18,45 +22,43 @@ import model.heritage.HeritageUndefind;
 
 
 
-public class MaterializeModel {
+public class MaterializeDependance {
 
 	Model model;
-	
+	GestionDependance dependances;
 
-	public MaterializeModel(Document document) {
-		//lecture des model
-		model = GenerationModel((Node) document.getDocumentElement());
+	public MaterializeDependance(Document document,Model model) {
+		this.model = model;
+		dependances = GenerationDependances((Node) document.getDocumentElement());
 	}
 
-	public Model getResult() {
-		return model;
+	public GestionDependance getResult() {
+		return dependances;
 	}
 	
 	
 	//lecture des instructions
-	public Model GenerationModel(Node element) {
+	public GestionDependance GenerationDependances(Node element) {
 		//retour si le l'element n'est pas un node
 		if (element.getNodeType() != Node.ELEMENT_NODE)
 			return null;
 		
-		Model model = new Model();
-		String name = element.getAttributes().getNamedItem("name").getNodeValue();
-		model.setName(name);
+		dependances = new GestionDependance();
 		//parcours de chaques elements du fichier xml
 		NodeList nl = element.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
-			Entity entity = GenerationEntity((Node) nl.item(i));
-			if(entity!=null)
-				model.addEntity(entity);
+			Dependance dependance = GenerationDependance((Node) nl.item(i));
+			if(dependance!=null)
+				dependances.addDependance(dependance);
 		}
-		return model;
+		return dependances;
 	}
 	
-	public Entity GenerationEntity(Node element) {
+	/*public Dependance GenerationDependance(Node element) {
 		if (element.getNodeType() != Node.ELEMENT_NODE)
 			return null;
 		
-		Entity entity = new Entity();
+		Dependance dependance = new Dependance();
 		
 		String name = element.getAttributes().getNamedItem("name").getNodeValue();
 		entity.setName(name);
@@ -74,9 +76,9 @@ public class MaterializeModel {
 				entity.addAttribute(attribute);
 		}
 		return entity;
-	}
+	}*/
 
-	public Attribute GenerationAttribute(Node element) {
+	/*public Attribute GenerationAttribute(Node element) {
 		if (element.getNodeType() != Node.ELEMENT_NODE)
 			return null;
 		
@@ -86,55 +88,44 @@ public class MaterializeModel {
 		attribute.setName(name);
 		attribute.setType(GenerationType(element.getChildNodes().item(1)));
 		return attribute;
-	}
+	}*/
 	
 	
-	public Type GenerationType(Node element) {
+	public Dependance GenerationDependance(Node element) {
 		if (element.getNodeType() != Node.ELEMENT_NODE)
-			return new AttrUndefind();
+			return null;
 		switch (element.getNodeName()) {
-		case "type":
-			return GenerationTypeSimple(element);
-		case "typeList":
-			return GenerationTypeList(element);
+		case "model":
+			return GenerationDependanceClass(element);
+		case "primitive":
+			return GenerationDependancePrimitive(element);
 		default:
-			return new AttrUndefind();
+			return null;
 		}
 	}
 	
 	
-	public Type GenerationTypeSimple(Node element) {
+	public Dependance GenerationDependanceClass(Node element) {
 		if (element.getNodeType() != Node.ELEMENT_NODE)
-			return new AttrUndefind();
-		String nameAttr  =element.getAttributes().getNamedItem("type").getNodeValue();
-		switch (nameAttr) {
-		case "Integer":
-			return new AttrInteger();
-		case "String":
-			return new AttrString();
-		default:
-			return new AttrUndefind(nameAttr);
+			return null;
+		String name  = element.getAttributes().getNamedItem("name").getNodeValue();
+		String packageName  = element.getAttributes().getNamedItem("package").getNodeValue();
+		for(Entity entityModel : model.getListEntity()) {
+			if(entityModel.getName().equals(name)) {
+				return new DependanceClass(packageName, entityModel);
+			}
 		}
+		return null;
 	}
 	
-	public Type GenerationTypeList(Node element) {
+	public Dependance GenerationDependancePrimitive(Node element) {
 		if (element.getNodeType() != Node.ELEMENT_NODE)
-			return new AttrUndefind();
-		
-		Type type ;
-		String nameAttr  = element.getAttributes().getNamedItem("type").getNodeValue();
-		switch (nameAttr) {
-		case "Array":
-			type = new AttrArray(GenerationType(element.getChildNodes().item(1)));
-			break;
-		case "List":
-			type = new AttrList(GenerationType(element.getChildNodes().item(1)));
-			break;
-		default:
-			type = new AttrUndefind(nameAttr);
-			break;
-		}
-		return type;
+			return null;
+		String name  = element.getAttributes().getNamedItem("name").getNodeValue();
+		//String packageName  = element.getAttributes().getNamedItem("package").getNodeValue();
+		String type  = element.getAttributes().getNamedItem("type").getNodeValue();
+		return new DependancePrimitive("", name,type);
+
 	}
 	
 	

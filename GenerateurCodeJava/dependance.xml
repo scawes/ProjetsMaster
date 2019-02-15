@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE dependance [<!ELEMENT dependance (model|primitive)*>
+<!ELEMENT model EMPTY>
+	<!ATTLIST model name CDATA #REQUIRED>
+	<!ATTLIST model package CDATA #IMPLIED>
+<!ELEMENT primitive EMPTY>
+	<!ATTLIST primitive name CDATA #REQUIRED>
+	<!ATTLIST primitive type CDATA #REQUIRED>
+	<!ATTLIST primitive package CDATA #IMPLIED>
+]>
+<dependance>
+	<model name="Satellite" package="m2tiil.model"/>
+	<model name="Flotte" package="m2tiil.model2"/>
+	<primitive name="String" type="String"/>
+	<primitive name="Integer" type="Integer"/>
+	<primitive name="List" type="ArrayList" package="Java.util.ArrayList"/>
+</dependance>

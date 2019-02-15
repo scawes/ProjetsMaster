@@ -1,4 +1,7 @@
 package genarate;
+import dependance.Dependance;
+import dependance.DependanceClass;
+import dependance.DependancePrimitive;
 import model.Attribute;
 import model.Entity;
 import model.Model;
@@ -35,6 +38,7 @@ public class VisitorGenerateJava implements Visitor{
 
 	@Override
 	public void visit(Model model) {
+		
 		result+="package ";
 		result+=model.getName();
 		result+="\n";
@@ -45,6 +49,9 @@ public class VisitorGenerateJava implements Visitor{
 
 	@Override
 	public void visit(Entity entity) {
+		for(Dependance dependance:entity.getDependances()) {
+			dependance.accept(this);
+		}
 		result+="public class ";
 		result+=entity.getName();
 		entity.getHeritage().accept(this);
@@ -97,6 +104,18 @@ public class VisitorGenerateJava implements Visitor{
 	@Override
 	public void visit(HeritageEntity heritageEntity) {
 		result+=" extends "+heritageEntity.getEntity().getName();
+	}
+
+	@Override
+	public void visit(DependancePrimitive dependancePrimitive) {
+		result+=" import "+dependancePrimitive.getPath();
+		result+="\n";
+	}
+
+	@Override
+	public void visit(DependanceClass dependanceClass) {
+		result+=" import "+dependanceClass.getPath();
+		result+="\n";
 	}
 
 }

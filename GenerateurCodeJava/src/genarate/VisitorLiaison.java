@@ -1,9 +1,12 @@
-package materialize;
+package genarate;
 
+import dependance.Dependance;
+import dependance.DependanceClass;
+import dependance.DependancePrimitive;
+import dependance.GestionDependance;
 import model.Attribute;
 import model.Entity;
 import model.Model;
-import model.attribute.Type;
 import model.attribute.collection.AttrArray;
 import model.attribute.collection.AttrList;
 import model.attribute.simple.AttrAssociation;
@@ -19,8 +22,20 @@ public class VisitorLiaison implements Visitor{
 	Model model;
 	AttrAssociation liaison = null;
 	HeritageEntity heritage = null;
-	public VisitorLiaison(Model model) {
+	GestionDependance dependances;
+	Entity entityEnCours;
+	
+	public VisitorLiaison(Model model,GestionDependance dependances) {
 		this.model = model;
+		this.dependances	= dependances;
+	}
+	
+	void addDependance(Entity entity) {
+		Dependance dependance = dependances.getDependance(entity);
+		if(entity.equals(entityEnCours))return;
+		if(!entityEnCours.getDependances().contains(dependance)) {
+			entityEnCours.addDependance(dependance);
+		}
 	}
 	
 	@Override
@@ -41,6 +56,7 @@ public class VisitorLiaison implements Visitor{
 
 	@Override
 	public void visit(Entity entity) {
+		entityEnCours = entity;
 		entity.getHeritage().accept(this);
 		if(heritage!=null) {
 			entity.setHeritage(heritage);
@@ -76,6 +92,7 @@ public class VisitorLiaison implements Visitor{
 		for(Entity entity:model.getListEntity()) {
 			if(entity.getName().equals(attrUndefind.getType())) {
 				liaison = new AttrAssociation(entity);
+				addDependance(entity);
 			}
 		}
 	}
@@ -100,6 +117,7 @@ public class VisitorLiaison implements Visitor{
 		for(Entity entity:model.getListEntity()) {
 			if(entity.getName().equals(heritageUndefind.getName())) {
 				heritage = new HeritageEntity(entity);
+				addDependance(entity);
 			}
 		}
 	}
@@ -107,6 +125,18 @@ public class VisitorLiaison implements Visitor{
 	@Override
 	public void visit(HeritageEntity heritageEntity) {
 
+	}
+
+	@Override
+	public void visit(DependancePrimitive dependancePrimitive) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(DependanceClass dependanceClass) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

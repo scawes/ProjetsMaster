@@ -3,6 +3,7 @@
 	<!ATTLIST model name CDATA #REQUIRED>
 <!ELEMENT entity (attribute*)>
 	<!ATTLIST entity name CDATA #REQUIRED>
+	<!ATTLIST entity subtype CDATA #IMPLIED>
 <!ELEMENT attribute (typeList|type)>
 	<!ATTLIST attribute name CDATA #REQUIRED>
 <!ELEMENT typeList (typeList|type)>
@@ -17,19 +18,22 @@
 		<attribute name="nom">
 			<type type="String"/>
 		</attribute>
+		<attribute name="voisin">
+			<type type="Satellite"/>
+		</attribute>
+		<attribute name="voisin2">
+			<type type="Satellite"/>
+		</attribute>
 		<attribute name="id">
 			<type type="Integer"/>
 		</attribute>
-		<attribute name="parent">
-			<type type="Flotte"/>
-		</attribute>
-		<attribute name="list">
-			<typeList type="Array">
-				<type type="Flotte"/>
-			</typeList>
-		</attribute>
 	</entity>
 	<entity name="Flotte">
+		<attribute name="listS">
+			<typeList type="Array">
+				<type type="Satellite"/>
+			</typeList>
+		</attribute>
 	</entity>
 	
 </model>
