@@ -19,6 +19,14 @@ public class DependancePrimitive extends Dependance{
 		return packageName;
 	}
 
+	public String getType() {
+		return type;
+	}
+	@Override
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public void accept(Visitor v) {
 		v.visit(this);
@@ -27,6 +35,16 @@ public class DependancePrimitive extends Dependance{
 	@Override
 	public boolean equals(Entity entity) {
 		return false;
+	}
+
+	@Override
+	public boolean equals(String name) {
+		return this.name.equals(name);
+	}
+
+	@Override
+	public String getPackage() {
+		return packageName;
 	}
 
 }

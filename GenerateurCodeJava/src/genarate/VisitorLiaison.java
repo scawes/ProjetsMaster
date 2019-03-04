@@ -7,6 +7,7 @@ import dependance.GestionDependance;
 import model.Attribute;
 import model.Entity;
 import model.Model;
+import model.attribute.Type;
 import model.attribute.collection.AttrArray;
 import model.attribute.collection.AttrList;
 import model.attribute.simple.AttrAssociation;
@@ -30,8 +31,25 @@ public class VisitorLiaison implements Visitor{
 		this.dependances	= dependances;
 	}
 	
-	void addDependance(Entity entity) {
+	private void matchDependance(Type type) {
+		Dependance dependance = dependances.getDependance(type.getName());
+		if(dependance == null) {
+			System.out.println("ERROR --> Type undefind :"+type.getName());
+			return;
+		}
+		
+		if(dependance.getPackageName().isEmpty())return;
+		if(!entityEnCours.getDependances().contains(dependance)) {
+			entityEnCours.addDependance(dependance);
+		}
+	}
+	
+	private void addDependance(Entity entity) {
 		Dependance dependance = dependances.getDependance(entity);
+		if(dependance == null) {
+			System.out.println("ERROR --> Type undefind :"+entity.getName());
+			return;
+		}
 		if(entity.equals(entityEnCours))return;
 		if(!entityEnCours.getDependances().contains(dependance)) {
 			entityEnCours.addDependance(dependance);
@@ -57,6 +75,7 @@ public class VisitorLiaison implements Visitor{
 	@Override
 	public void visit(Entity entity) {
 		entityEnCours = entity;
+		entityEnCours.setClassPackage(dependances.getDependance(entity).getPackage());
 		entity.getHeritage().accept(this);
 		if(heritage!=null) {
 			entity.setHeritage(heritage);
@@ -70,6 +89,7 @@ public class VisitorLiaison implements Visitor{
 
 	@Override
 	public void visit(AttrList attrList) {
+		matchDependance(attrList);
 		attrList.getListOf().accept(this);
 		if(liaison!=null) {
 			attrList.setListOf(liaison);
@@ -79,6 +99,7 @@ public class VisitorLiaison implements Visitor{
 
 	@Override
 	public void visit(AttrArray attrArray) {
+		matchDependance(attrArray);
 		attrArray.getListOf().accept(this);
 		if(liaison!=null) {
 			attrArray.setListOf(liaison);
@@ -90,7 +111,7 @@ public class VisitorLiaison implements Visitor{
 	@Override
 	public void visit(AttrUndefind attrUndefind) {
 		for(Entity entity:model.getListEntity()) {
-			if(entity.getName().equals(attrUndefind.getType())) {
+			if(entity.getName().equals(attrUndefind.getName())) {
 				liaison = new AttrAssociation(entity);
 				addDependance(entity);
 			}
@@ -99,17 +120,17 @@ public class VisitorLiaison implements Visitor{
 
 	@Override
 	public void visit(AttrAssociation attrAssociation) {
-		
+
 	}
 
 	@Override
 	public void visit(AttrString attrString) {
-		
+		matchDependance(attrString);
 	}
 
 	@Override
 	public void visit(AttrInteger attrInteger) {
-		
+		matchDependance(attrInteger);
 	}
 
 	@Override

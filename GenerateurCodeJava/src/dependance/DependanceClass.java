@@ -29,6 +29,21 @@ public class DependanceClass extends Dependance {
 	public boolean equals(Entity entity) {
 		return this.entity.equals(entity);
 	}
+
+	@Override
+	public String getName() {
+		return entity.getName();
+	}
+
+	@Override
+	public boolean equals(String name) {
+		return false;
+	}
+
+	@Override
+	public String getPackage() {
+		return packageName;
+	}
 	
 	
 }

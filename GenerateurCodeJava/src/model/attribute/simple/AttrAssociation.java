@@ -8,7 +8,7 @@ public class AttrAssociation extends TypeSimple{
 	Entity typeOf;
 	
 	public AttrAssociation(Entity typeOf) {
-		super();
+		super(typeOf.getName());
 		this.typeOf	= typeOf;
 	}
 	

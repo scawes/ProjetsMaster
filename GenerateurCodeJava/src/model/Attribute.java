@@ -6,12 +6,14 @@ import visitor.Visitor;
 
 public class  Attribute implements Visitable{
 	private String name;
+	private String valeur;
 	private Type type;
 	public Attribute() {
-		
+		this.valeur = "";
 	}
 	
 	public Attribute(String name) {
+		this();
 		this.name = name;
 	}
 
@@ -21,6 +23,14 @@ public class  Attribute implements Visitable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getValeur() {
+		return valeur;
+	}
+
+	public void setValeur(String valeur) {
+		this.valeur = valeur;
 	}
 
 	public Type getType() {

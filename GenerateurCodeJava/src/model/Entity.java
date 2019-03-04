@@ -13,6 +13,7 @@ public class Entity implements Visitable{
 
 	List<Attribute> listAttribute;
 	List<Dependance> listDependance;
+	String classPackage;
 	String name;
 	Heritage heritage;
 	
@@ -57,6 +58,14 @@ public class Entity implements Visitable{
 	
 	public List<Dependance> getDependances(){
 		return listDependance;
+	}
+
+	public String getClassPackage() {
+		return classPackage;
+	}
+
+	public void setClassPackage(String classPackage) {
+		this.classPackage = classPackage;
 	}
 
 	@Override

@@ -20,5 +20,11 @@ public abstract class Dependance implements Visitable{
 	
 	public abstract String getPath();
 	
+	public abstract String getPackage();
+	
+	public abstract String getName();
+	
 	public abstract boolean equals(Entity entity);
+	
+	public abstract boolean equals(String name);
 }

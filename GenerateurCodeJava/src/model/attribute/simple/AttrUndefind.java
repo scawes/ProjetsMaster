@@ -5,14 +5,11 @@ import visitor.Visitor;
 public class AttrUndefind extends TypeSimple {
 
 	String type;
-	public AttrUndefind(String type) {
-		this.type 	= type;
+	public AttrUndefind(String name) {
+		super(name);
 	}
 	public AttrUndefind() {
-		this.type 	= "";
-	}
-	public String getType() {
-		return type;
+		super("");
 	}
 	@Override
 	public void accept(Visitor v) {

@@ -9,16 +9,8 @@ import dependance.Dependance;
 import dependance.DependanceClass;
 import dependance.DependancePrimitive;
 import dependance.GestionDependance;
-import model.Attribute;
 import model.Entity;
 import model.Model;
-import model.attribute.Type;
-import model.attribute.collection.AttrArray;
-import model.attribute.collection.AttrList;
-import model.attribute.simple.AttrUndefind;
-import model.attribute.simple.basic.AttrInteger;
-import model.attribute.simple.basic.AttrString;
-import model.heritage.HeritageUndefind;
 
 
 
@@ -122,9 +114,12 @@ public class MaterializeDependance {
 		if (element.getNodeType() != Node.ELEMENT_NODE)
 			return null;
 		String name  = element.getAttributes().getNamedItem("name").getNodeValue();
-		//String packageName  = element.getAttributes().getNamedItem("package").getNodeValue();
 		String type  = element.getAttributes().getNamedItem("type").getNodeValue();
-		return new DependancePrimitive("", name,type);
+		String packageName  = "";
+		if(element.getAttributes().getNamedItem("package")!= null) {
+			packageName = element.getAttributes().getNamedItem("package").getNodeValue();
+		}
+		return new DependancePrimitive(packageName, name,type);
 
 	}
 	

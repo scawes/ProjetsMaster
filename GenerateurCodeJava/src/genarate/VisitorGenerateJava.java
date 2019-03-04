@@ -1,4 +1,7 @@
 package genarate;
+import java.util.ArrayList;
+import java.util.List;
+
 import dependance.Dependance;
 import dependance.DependanceClass;
 import dependance.DependancePrimitive;
@@ -17,83 +20,113 @@ import visitor.Visitor;
 
 public class VisitorGenerateJava implements Visitor{
 
-	String result;
+	List<String> ListClass;
+	String uneClass; 
 	
 	public VisitorGenerateJava() {
-		result="";
+		ListClass=new ArrayList<String>();
+		uneClass = "";
 	}
 	
+	public List<String> getListResult(){
+		return ListClass;
+	}
 	public String getResult(){
+		String result = "";
+		for(String classFile:ListClass) {
+			result+=classFile;
+		}
 		return result;
 	}
 	
 	@Override
 	public void visit(Attribute attribute) {
-		result+="\t";
+		uneClass+="\t";
 		attribute.getType().accept(this);
-		result+=" ";
-		result+=attribute.getName();
-		result+=";\n";
+		uneClass+=" ";
+		uneClass+=attribute.getName();
+		if(!attribute.getValeur().isEmpty()) {
+			uneClass+="\t";
+			uneClass+="= ";
+			uneClass+=attribute.getValeur().replace("'", "\"");
+		}
+		uneClass+=";\n";
 	}
 
 	@Override
 	public void visit(Model model) {
-		
-		result+="package ";
-		result+=model.getName();
-		result+="\n";
 		for(Entity entity:model.getListEntity()) {
 			entity.accept(this);
+			//ajout de la classe
+			ListClass.add(uneClass);
+			uneClass="";
 		}
 	}
 
 	@Override
 	public void visit(Entity entity) {
+		uneClass+="package ";
+		uneClass+=entity.getClassPackage();
+		uneClass+=";\n";
+		//dependence
 		for(Dependance dependance:entity.getDependances()) {
 			dependance.accept(this);
 		}
-		result+="public class ";
-		result+=entity.getName();
+		//declaration class
+		uneClass+="public class ";
+		uneClass+=entity.getName();
 		entity.getHeritage().accept(this);
-		result+="{\n";
+		uneClass+="{\n";
+		//declaration variable
 		for(Attribute attribute:entity.getListAttribute()) {
 			attribute.accept(this);
 		}
-		result+="}\n";
+		//constructor
+		VisitorGenerateConstructor constructeur = new VisitorGenerateConstructor();
+		entity.accept(constructeur);
+		uneClass+=constructeur.getResult();
+		//getter setter
+		VisitorGenerateGetSet getset = new VisitorGenerateGetSet();
+		entity.accept(getset);
+		uneClass+=getset.getResult();
+		uneClass+="}\n\n";
+		
 	}
 
 	@Override
 	public void visit(AttrList attrList) {
-		result+="List<";
+		uneClass+=attrList.getName();
+		uneClass+="<";
 		attrList.getListOf().accept(this);
-		result+=">";
+		uneClass+=">";
 	}
 
 	@Override
 	public void visit(AttrArray attrArray) {
-		result+="Array<";
+		uneClass+= attrArray.getName();
+		uneClass+="<";
 		attrArray.getListOf().accept(this);
-		result+=">";
+		uneClass+=">";
 	}
 
 	@Override
 	public void visit(AttrUndefind attrUndefind) {
-		result+="Undefind";
+		uneClass+="Undefind";
 	}
 
 	@Override
 	public void visit(AttrAssociation attrAssociation) {
-		result+=attrAssociation.getTypeOf().getName();
+		uneClass+=attrAssociation.getTypeOf().getName();
 	}
 
 	@Override
 	public void visit(AttrString attrString) {
-		result+="String";
+		uneClass+=attrString.getName();
 	}
 
 	@Override
 	public void visit(AttrInteger attrInteger) {
-		result+="Integer";
+		uneClass+=attrInteger.getName();
 	}
 
 	@Override
@@ -103,19 +136,19 @@ public class VisitorGenerateJava implements Visitor{
 
 	@Override
 	public void visit(HeritageEntity heritageEntity) {
-		result+=" extends "+heritageEntity.getEntity().getName();
+		uneClass+=" extends "+heritageEntity.getEntity().getName();
 	}
 
 	@Override
 	public void visit(DependancePrimitive dependancePrimitive) {
-		result+=" import "+dependancePrimitive.getPath();
-		result+="\n";
+		uneClass+="import "+dependancePrimitive.getPath();
+		uneClass+=";\n";
 	}
 
 	@Override
 	public void visit(DependanceClass dependanceClass) {
-		result+=" import "+dependanceClass.getPath();
-		result+="\n";
+		uneClass+="import "+dependanceClass.getPath();
+		uneClass+=";\n";
 	}
 
 }

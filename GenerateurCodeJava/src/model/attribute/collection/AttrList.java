@@ -5,8 +5,8 @@ import visitor.Visitor;
 
 public class AttrList extends TypeCollection{
 
-	public AttrList(Type listOf) {
-		super(listOf);
+	public AttrList(String name,Type listOf) {
+		super(name,listOf);
 	}
 
 	@Override

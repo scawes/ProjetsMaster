@@ -1,6 +1,5 @@
 package model.attribute.collection;
 
-import model.Attribute;
 import model.attribute.Type;
 
 public abstract class TypeCollection extends Type{
@@ -8,8 +7,8 @@ public abstract class TypeCollection extends Type{
 	Type listOf;
 
 	
-	public TypeCollection(Type listOf) {
-		super();
+	public TypeCollection(String name,Type listOf) {
+		super(name);
 		this.listOf = listOf;
 	}
 

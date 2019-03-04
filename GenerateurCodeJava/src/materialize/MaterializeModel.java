@@ -85,6 +85,9 @@ public class MaterializeModel {
 		String name = element.getAttributes().getNamedItem("name").getNodeValue();
 		attribute.setName(name);
 		attribute.setType(GenerationType(element.getChildNodes().item(1)));
+		if(element.getAttributes().getNamedItem("valeur")!=null) {
+			attribute.setValeur(element.getAttributes().getNamedItem("valeur").getNodeValue());
+		}
 		return attribute;
 	}
 	
@@ -109,9 +112,9 @@ public class MaterializeModel {
 		String nameAttr  =element.getAttributes().getNamedItem("type").getNodeValue();
 		switch (nameAttr) {
 		case "Integer":
-			return new AttrInteger();
+			return new AttrInteger(nameAttr);
 		case "String":
-			return new AttrString();
+			return new AttrString(nameAttr);
 		default:
 			return new AttrUndefind(nameAttr);
 		}
@@ -125,10 +128,10 @@ public class MaterializeModel {
 		String nameAttr  = element.getAttributes().getNamedItem("type").getNodeValue();
 		switch (nameAttr) {
 		case "Array":
-			type = new AttrArray(GenerationType(element.getChildNodes().item(1)));
+			type = new AttrArray("ArrayList",GenerationType(element.getChildNodes().item(1)));
 			break;
 		case "List":
-			type = new AttrList(GenerationType(element.getChildNodes().item(1)));
+			type = new AttrList("List",GenerationType(element.getChildNodes().item(1)));
 			break;
 		default:
 			type = new AttrUndefind(nameAttr);

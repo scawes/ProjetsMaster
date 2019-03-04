@@ -9,9 +9,10 @@
 	<!ATTLIST primitive package CDATA #IMPLIED>
 ]>
 <dependance>
-	<model name="Satellite" package="m2tiil.model"/>
-	<model name="Flotte" package="m2tiil.model2"/>
+	<model name="Satellite" package="test.generateFiles"/>
+	<model name="Flotte" package="test.generateFiles"/>
 	<primitive name="String" type="String"/>
 	<primitive name="Integer" type="Integer"/>
-	<primitive name="List" type="ArrayList" package="Java.util.ArrayList"/>
+	<primitive name="List" type="ArrayList" package="java.util.ArrayList"/>
+	<primitive name="ArrayList" type="ArrayList" package="java.util.ArrayList"/>
 </dependance>

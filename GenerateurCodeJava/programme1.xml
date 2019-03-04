@@ -6,6 +6,7 @@
 	<!ATTLIST entity subtype CDATA #IMPLIED>
 <!ELEMENT attribute (typeList|type)>
 	<!ATTLIST attribute name CDATA #REQUIRED>
+	<!ATTLIST attribute valeur CDATA #REQUIRED>
 <!ELEMENT typeList (typeList|type)>
 	<!ATTLIST typeList type CDATA #REQUIRED>
 <!ELEMENT type EMPTY>
@@ -15,16 +16,16 @@
 <model name="parser">
 	
 	<entity name="Satellite" subtype="Flotte">
-		<attribute name="nom">
+		<attribute name="nom" valeur="'space'">
 			<type type="String"/>
 		</attribute>
-		<attribute name="voisin">
+		<attribute name="voisin" >
 			<type type="Satellite"/>
 		</attribute>
-		<attribute name="voisin2">
+		<attribute name="voisin2" >
 			<type type="Satellite"/>
 		</attribute>
-		<attribute name="id">
+		<attribute name="idSatellite" valeur="7">
 			<type type="Integer"/>
 		</attribute>
 	</entity>

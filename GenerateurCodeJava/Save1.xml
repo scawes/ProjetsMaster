@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Instances>
+<Satellite id="0" nom="null" voisin="null" voisin2="null"/>
+<Flotte id="1" listS="#0 "/>
+</Instances>

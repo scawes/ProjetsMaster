@@ -28,4 +28,13 @@ public class GestionDependance {
 		}
 		return null;
 	}
+	
+	public Dependance getDependance(String name) {
+		for(Dependance dependance : listDependance) {
+			if(dependance.equals(name)) {
+				return dependance;
+			}
+		}
+		return null;
+	}
 }
