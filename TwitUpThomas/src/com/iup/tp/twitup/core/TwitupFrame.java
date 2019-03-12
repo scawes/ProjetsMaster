@@ -1,11 +1,12 @@
 package com.iup.tp.twitup.core;
 
 import com.iup.tp.twitup.action.IGestionFrame;
-import com.iup.tp.twitup.ihm.TwitupConnexionView;
-import com.iup.tp.twitup.ihm.TwitupGlobalView;
-import com.iup.tp.twitup.ihm.TwitupInscriptionView;
-import com.iup.tp.twitup.ihm.TwitupListTwitView;
-import com.iup.tp.twitup.ihm.TwitupNewTwitView;
+import com.iup.tp.twitup.ihm.components.TwitupListTwitView;
+import com.iup.tp.twitup.ihm.components.TwitupNewTwitView;
+import com.iup.tp.twitup.ihm.view.TwitupConnexionView;
+import com.iup.tp.twitup.ihm.view.TwitupGlobalView;
+import com.iup.tp.twitup.ihm.view.TwitupInscriptionView;
+import com.iup.tp.twitup.ihm.view.TwitupUserView;
 
 public class TwitupFrame implements IGestionFrame{
 	protected Twitup twitup;
@@ -26,7 +27,7 @@ public class TwitupFrame implements IGestionFrame{
 
 	@Override
 	public void viewTwit() {
-		TwitupListTwitView vue = new TwitupListTwitView(twitup.getTwit(),twitup.getTwit());
+		TwitupListTwitView vue = new TwitupListTwitView(twitup.getTwit(),twitup.getTwit(),twitup.getUser());
 		twitup.getmMainView().setFrame(vue);
 		twitup.getTwit().setVue(vue);
 	}
@@ -41,4 +42,8 @@ public class TwitupFrame implements IGestionFrame{
 		twitup.getmMainView().setFrame(new TwitupGlobalView(this, twitup.getUser(), twitup.getTwit(),twitup.getTwit()));
 	}
 
+	@Override
+	public void userView() {
+		twitup.getmMainView().setFrame(new TwitupUserView(this,twitup.getUser()));
+	}
 }

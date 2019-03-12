@@ -4,6 +4,7 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.iup.tp.twitup.action.ICloseFrame;
 import com.iup.tp.twitup.common.Constants;
 import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
@@ -18,7 +19,7 @@ import com.iup.tp.twitup.ihm.TwitupMock;
  * 
  * @author S.Lucas
  */
-public class Twitup{
+public class Twitup implements ICloseFrame{
 	/**
 	 * Base de données.
 	 */
@@ -143,21 +144,6 @@ public class Twitup{
 	protected void initGui() {
 		mMainView = new TwitupMainView(directory);
 	}
-
-	/**
-	 * Initialisation du répertoire d'échange (depuis la conf ou depuis un file
-	 * chooser). <br/>
-	 * <b>Le chemin doit obligatoirement avoir été saisi et être valide avant de
-	 * pouvoir utiliser l'application</b>
-	 */
-	/*protected void initDirectory() {
-		String path = definePath();
-		if(path.length()>0) {
-			initDirectory(path);
-		}else {
-			
-		}
-	}*/
 	
 	/**
 	 * Initialisation du de l'observer de la base
@@ -238,5 +224,11 @@ public class Twitup{
 
 	public String getmExchangeDirectoryPath() {
 		return mExchangeDirectoryPath;
+	}
+
+	@Override
+	public void close() {
+		mMainView.close();
+		System.exit(0);
 	}
 }

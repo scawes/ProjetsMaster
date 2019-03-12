@@ -1,4 +1,4 @@
-package com.iup.tp.twitup.ihm;
+package com.iup.tp.twitup.ihm.view;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 import com.iup.tp.twitup.action.IGestionConnexion;
 import com.iup.tp.twitup.action.IGestionFrame;
+import com.iup.tp.twitup.common.Constants;
 import com.iup.tp.twitup.core.Bundle;
 
 public class TwitupConnexionView extends JPanel {
@@ -36,14 +37,14 @@ public class TwitupConnexionView extends JPanel {
 	
 	private void initChamp() {
 		this.setLayout(new GridBagLayout());
-		JLabel lIdentifiant = new JLabel(Bundle.get("login"));
+		JLabel lIdentifiant = new JLabel(Bundle.get(Constants.TXT_LOGIN));
 		JTextField fIdentifiant = new JTextField();
 		
-		JLabel lPassword = new JLabel(Bundle.get("password"));
+		JLabel lPassword = new JLabel(Bundle.get(Constants.TXT_PASSWORD));
 		JTextField fPassword = new JTextField();
 				
 		JButton connection	= new JButton();
-		connection.setText(Bundle.get("connect"));
+		connection.setText(Bundle.get(Constants.TXT_CONNECT));
 		connection.addActionListener(new ActionListener(){
               public void actionPerformed(ActionEvent e){
             	  if(gestionConnexion.connexion(fIdentifiant.getText(), fPassword.getText())) {
@@ -53,17 +54,26 @@ public class TwitupConnexionView extends JPanel {
           });
 		
 		JButton inscription	= new JButton();
-		inscription.setText(Bundle.get("subscribe"));
+		inscription.setText(Bundle.get(Constants.TXT_SUBSCRIBE));
 		inscription.addActionListener(new ActionListener(){
               public void actionPerformed(ActionEvent e){
             	gestionFrame.inscription();
               }
           });
+		JButton btnRetour	= new JButton();
+		btnRetour.setText(Bundle.get(Constants.TXT_BACK));
+		btnRetour.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+            	gestionFrame.globalView();
+            }
+        });
 		add(lIdentifiant,new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
 		add(fIdentifiant,new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
 		add(lPassword,new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
 		add(fPassword,new GridBagConstraints(1, 1, 1, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
 		add(connection,new GridBagConstraints(0, 2, 2, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
 		add(inscription,new GridBagConstraints(0, 3, 2, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
+		add(btnRetour,new GridBagConstraints(0, 4, 2, 1, 1, 0, GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL , new Insets(0,0,0,0),0 , 0));
+
 	}
 }

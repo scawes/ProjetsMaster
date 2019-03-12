@@ -24,6 +24,10 @@ public class TwitupDirectory implements IChooseDirectory{
 		    props.setProperty(Constants.CONFIGURATION_KEY_EXCHANGE_DIRECTORY,  path);
 		    PropertiesManager.writeProperties(props, Constants.CONFIGURATION_FILE);
 		    twitup.initDirectory(path);
+		}else {
+			if(props.getProperty(Constants.CONFIGURATION_KEY_EXCHANGE_DIRECTORY).isEmpty()) {
+				twitup.close();
+			}
 		}
 	}
 	

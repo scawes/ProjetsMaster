@@ -7,7 +7,7 @@ import com.iup.tp.twitup.action.IGestionTwit;
 import com.iup.tp.twitup.datamodel.IDatabaseObserver;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.datamodel.User;
-import com.iup.tp.twitup.ihm.TwitupListTwitView;
+import com.iup.tp.twitup.ihm.components.TwitupListTwitView;
 
 public class TwitupTwit implements IGestionTwit,IDatabaseObserver,ITwitChange{
 
@@ -56,7 +56,18 @@ public class TwitupTwit implements IGestionTwit,IDatabaseObserver,ITwitChange{
 	
 	@Override
 	public Set<Twit> refresh(String search) {
-		return twitup.getmDatabase().getTwitsWithTag(search);
+		Set<Twit> twitTag;
+		if(search.contains("#")) {
+			search=search.replace("#", "");
+			twitTag= twitup.getmDatabase().getTwitsWithTag(search);
+		} else if(search.contains("@")) {
+			search=search.replace("@", "");
+			twitTag= twitup.getmDatabase().getTwitsWithUserTag(search);
+		} else {
+			twitTag = twitup.getmDatabase().getTwitsWithTag(search);
+			twitTag.addAll(twitup.getmDatabase().getTwitsWithUserTag(search));
+		}
+		return twitTag;
 	}
 
 	@Override

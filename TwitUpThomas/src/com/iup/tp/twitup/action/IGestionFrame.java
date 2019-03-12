@@ -10,4 +10,6 @@ public interface IGestionFrame {
 	void newTwit();
 	
 	void globalView();
+	
+	void userView();
 }

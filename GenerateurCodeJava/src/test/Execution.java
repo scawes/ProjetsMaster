@@ -3,7 +3,6 @@ package test;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import org.w3c.dom.Document;
 
 import dependance.GestionDependance;
@@ -16,9 +15,6 @@ import materialize.MaterializeDependance;
 import materialize.MaterializeModel;
 import model.Model;
 import repository.Repository;
-import test.generateFiles.Flotte;
-import test.generateFiles.Repository2;
-import test.generateFiles.Satellite;
 
 
 public class Execution {
@@ -31,36 +27,13 @@ public class Execution {
 
 		//String fichierModel = "programme1.xml";
 		//affichage();
-		//generateFile();
-		affichage();
+		generateFile();
+		//affichage();
 	}
 	
-	static void TestInstance(Model model) {
-		ArrayList<Satellite> listS = new ArrayList<Satellite>();
-		listS.add(new Satellite("test1",null,null,100));
-		Flotte flotte = new Flotte();
-		flotte.setlistS(listS);
-		Repository2 rep = new Repository2();
-		rep.setModel(model);
-		//rep.saveInstance(flotte);
-		//model.accept(rep);
-		generationInstanceRepo("Save1.xml",model,rep);
-		System.out.println("---> INSTANCES :");
-		System.out.println(rep.exportListInstanceToXML());
-		Flotte flotteRestore = rep.restoreFlotte(rep.getInstance(1));
-		System.out.println(flotteRestore.toString());
-		//createFile("Save1.xml", rep.exportListInstanceToXML());
-		//System.out.println(rep.export());
-		
-	}
 	
-	static void generationInstanceRepo(String fichier,Model model,Repository2 rep) {
-		Gestion_dom dom = new Gestion_dom(fichier);
-		Document document = dom.generer_document();
-		rep.MaterializeInstance(document);
-		//MaterializeModel materializeModel = new MaterializeModel(document);
-		//return materializeModel.getResult();
-	}
+	
+	
 	
 	static void extractionInstance(Model model) {
 		Repository rep = new Repository();
@@ -86,7 +59,7 @@ public class Execution {
 		System.out.println("---> CODE :");
 		System.out.println(v.getResult());
 		//extractionInstance(racine);
-		TestInstance(racine);
+		//TestInstance(racine);
 	}
 	
 	static void generateFile() {

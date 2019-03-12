@@ -74,11 +74,73 @@ public interface Constants {
 	public static final String CONFIGURATION_KEY_LOOK_AND_FEEL = "LOOK_AND_FEEL";
 	
 	/**
-	 * Clé de configuration pour le mode bouchoné
+	 * Clé de configuration pour le language de l'application
 	 */
 	public static final String CONFIGURATION_KEY_LANGUAGE = "LANGUAGE";
+	
+	public static final String CONFIGURATION_KEY_COUNTRY = "COUNTRY";
+	
+	public static final Integer CONFIGURATION_MAX_SIZE_TWIT = 150;
+	
+	public static final String CONFIGURATION_LOOK_AND_FEEL_METALLOOKANDFEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
 
-	public static final String TXT_SEND = "SEND";
+	public static final String IMG_ICON_EXIT = "/images/exitIcon_20.png";
+	
+	public static final String IMG_ICON_LOGO = "/images/logoIUP_20.jpg";
+	
+	public static final String IMG_LARGE_LOGO ="/images/logoIUP_50.jpg";
+	
+	public static final String TXT_APPLICATION_NAME = "applicationName";
+	
+	public static final String TXT_SEND = "Send";
 
 	public static final String TXT_CONTENT = "content";
+	
+	public static final String TXT_LOGIN = "login";
+	
+	public static final String TXT_PASSWORD = "password";
+	
+	public static final String TXT_CONNECT = "connect";
+	
+	public static final String TXT_FILE = "file";
+	
+	public static final String TXT_SUBSCRIBE = "subscribe";
+	
+	public static final String TXT_SEARCH = "search";
+	
+	public static final String TXT_QUIT = "quit";
+
+	public static final String TXT_SET_DIRECTORY = "setDirectory";
+
+	public static final String TXT_ABOUT = "about";
+
+	public static final String TXT_TAG = "tag";
+
+	public static final String TXT_INVALIDE_TAG = "invalideTag";
+
+	public static final String TXT_INVALIDE_USER = "invalideUser";
+
+	public static final String TXT_INVALIDE_PASSWORD = "invalidePassword";
+
+	public static final String TXT_INVALIDE_TAG_USE = "invalideTagUse";
+	
+	public static final String TXT_BACK = "back";
+
+	public static final String TXT_ACCOUNT = "account";
+
+	public static final String TXT_LOGOUT = "logout";
+
+	public static final String TXT_UPDATE_USER = "updateUser";
+
+	public static final String TXT_AVATAR = "avatar";
+
+	public static final String TXT_CHOOSE_FILE = "chooseFile";
+	
+	public static final String TXT_FOLLOW = "follow";
+	
+	public static final String TXT_UNFOLLOW = "unfollow";
+	
+	
+	
+	//public static final String TXT_FILE = "content";
 }
