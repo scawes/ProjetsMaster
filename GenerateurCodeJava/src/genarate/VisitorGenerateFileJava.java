@@ -2,6 +2,8 @@ package genarate;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+
+import common.Constants;
 import dependance.Dependance;
 import dependance.DependanceClass;
 import dependance.DependancePrimitive;
@@ -16,6 +18,7 @@ import model.attribute.simple.basic.AttrInteger;
 import model.attribute.simple.basic.AttrString;
 import model.heritage.HeritageEntity;
 import model.heritage.HeritageUndefind;
+import repository.InstanceModel;
 import visitor.Visitor;
 
 public class VisitorGenerateFileJava implements Visitor{
@@ -69,6 +72,8 @@ public class VisitorGenerateFileJava implements Visitor{
 			writer.print("public class ");
 			writer.print(entity.getName());
 			entity.getHeritage().accept(this);
+			writer.print(" implements ");
+			writer.print(Constants.VISITABLE_MODEL_NAME);
 			writer.println("{");
 			
 			//declaration variable
@@ -133,7 +138,7 @@ public class VisitorGenerateFileJava implements Visitor{
 
 	@Override
 	public void visit(HeritageUndefind heritageUndefind) {
-		
+		writer.print(" extends "+InstanceModel.class.getName());
 	}
 
 	@Override

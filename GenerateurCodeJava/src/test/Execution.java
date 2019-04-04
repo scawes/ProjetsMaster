@@ -1,27 +1,17 @@
 package test;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import org.w3c.dom.Document;
-
-import dependance.GestionDependance;
+import common.Constants;
+import common.ConstructFile;
+import genarate.GenerateInterfaceVisit;
 import genarate.VisitorGenerateFileJava;
 import genarate.VisitorGenerateJava;
-import genarate.VisitorLiaison;
 import genarate.VisitorVerification;
-import materialize.Gestion_dom;
-import materialize.MaterializeDependance;
-import materialize.MaterializeModel;
 import model.Model;
-import repository.Repository;
 
 
 public class Execution {
 
-	final static String fichierModel = "programme1.xml";
-	final static String fichierDependance = "dependance.xml";
-	final static String pathGenerateFiles = "src/test/generateFiles/";
+	
 	
 	public static void main(String[] args) {
 
@@ -31,22 +21,8 @@ public class Execution {
 		//affichage();
 	}
 	
-	
-	
-	
-	
-	static void extractionInstance(Model model) {
-		Repository rep = new Repository();
-		//rep.addModel(model);
-		//model.accept(rep);
-		System.out.println("---> INSTANCES :");
-		rep.addAllInstance(model);
-		System.out.println(rep.exportInstanceToXML());
-		//System.out.println(rep.export());
-	}
-	
 	static void affichage() {
-		Model racine = generationInstance();
+		Model racine = ConstructFile.generationInstance();
 		VisitorVerification verif = new VisitorVerification();
 		racine.accept(verif);
 		if(!verif.getResult()) {
@@ -54,6 +30,7 @@ public class Execution {
 			System.out.println(verif.getDetail());
 			return;
 		}
+		GenerateInterfaceVisit.generate(racine);
 		VisitorGenerateJava v = new VisitorGenerateJava();
 		racine.accept(v);
 		System.out.println("---> CODE :");
@@ -63,7 +40,7 @@ public class Execution {
 	}
 	
 	static void generateFile() {
-		Model racine = generationInstance();
+		Model racine = ConstructFile.generationInstance();
 		VisitorVerification verif = new VisitorVerification();
 		racine.accept(verif);
 		if(!verif.getResult()) {
@@ -71,42 +48,14 @@ public class Execution {
 			System.out.println(verif.getDetail());
 			return;
 		}
-		VisitorGenerateFileJava v = new VisitorGenerateFileJava(pathGenerateFiles);
+		GenerateInterfaceVisit.generate(racine);
+		VisitorGenerateFileJava v = new VisitorGenerateFileJava(Constants.PATH_GENERATE_FILE);
 		racine.accept(v);
 		//TestInstance(racine);
 	}
-
-	static Model GenerationModel(String fichier){
-		Gestion_dom dom = new Gestion_dom(fichier);
-		Document document = dom.generer_document();
-		MaterializeModel materializeModel = new MaterializeModel(document);
-		return materializeModel.getResult();
-	}
 	
-	static GestionDependance GenerationDependance(String fichier,Model model){
-		Gestion_dom dom = new Gestion_dom(fichier);
-		Document document = dom.generer_document();
-		MaterializeDependance materializeDependance = new MaterializeDependance(document,model);
-		return materializeDependance.getResult();
-	}
 	
-	static Model generationInstance() {
-		Model model = GenerationModel(fichierModel);
-		GestionDependance dependances = GenerationDependance(fichierDependance, model);
-		VisitorLiaison visitor = new VisitorLiaison(model,dependances);
-		model.accept(visitor);
-		return model;
-	}
-	static void createFile(String pathFile,String value) {
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(pathFile, "UTF-8");
-			writer.write(value);
-			writer.close();
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+	
+	
+	
 }

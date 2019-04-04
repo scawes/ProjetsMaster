@@ -1,4 +1,5 @@
 <Instances>
-<Satellite id="0" nom="test1" voisin="#-1" voisin2="#-1" idSatellite="101"/>
-<Flotte id="1" listS="#0 "/>
+<Satellite id="0" idSatellite="102" voisin="" voisin2="" listS=""/>
+<Satellite id="1" idSatellite="101" voisin="#0" voisin2="" listS=""/>
+<Flotte id="2" listS="#1 #0 "/>
 </Instances>

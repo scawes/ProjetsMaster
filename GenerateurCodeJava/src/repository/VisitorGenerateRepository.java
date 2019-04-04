@@ -14,7 +14,6 @@ import model.attribute.simple.basic.AttrInteger;
 import model.attribute.simple.basic.AttrString;
 import model.heritage.HeritageEntity;
 import model.heritage.HeritageUndefind;
-import test.generateFiles.Flotte;
 import visitor.Visitor;
 
 public class VisitorGenerateRepository implements Visitor {

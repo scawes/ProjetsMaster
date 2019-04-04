@@ -1,14 +1,12 @@
 package test.generateFiles;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
+import common.Constants;
+import common.ConstructFile;
 import dependance.GestionDependance;
-import genarate.VisitorLiaison;
 import genarate.VisitorVerification;
 import materialize.Gestion_dom;
 import materialize.MaterializeDependance;
@@ -17,52 +15,52 @@ import model.Model;
 
 public class ExecutionInstance {
 	
-	final static String fichierModel = "programme1.xml";
-	final static String fichierDependance = "dependance.xml";
-	final static String fichierInstance = "Save1.xml";
+	
 
 	public static void main(String[] args) {
 		Instanciation();
 	}
 	
 	static void exportInstance(Model model) {
+		Repository3 rep = new Repository3();
+		rep.setModel(model);
+		
+		Satellite s2 = new Satellite("test2",null,null,102);
+		Satellite s1 = new Satellite("test1",s2,null,101);
 		ArrayList<Satellite> listS = new ArrayList<Satellite>();
-		listS.add(new Satellite("test1",null,null,101));
+		listS.add(s1);
+		listS.add(s2);
 		Flotte flotte = new Flotte();
 		flotte.setlistS(listS);
-		Repository2 rep = new Repository2();
-		rep.setModel(model);
-		rep.saveInstance(flotte);
+				
+		rep.addInstance(s2);
+		rep.addInstance(s1);
+		rep.addInstance(flotte);
 		System.out.println("---> INSTANCES :");
 		System.out.println(rep.exportListInstanceToXML());
-		createFile(fichierInstance, rep.exportListInstanceToXML());
+		ConstructFile.createFile(Constants.FILE_INSTANCE, rep.exportListInstanceToXML());
 		
 	}
 	
 	static void importInstance(Model model) {
 		
-		Repository2 rep = new Repository2();
+		Repository3 rep = new Repository3();
 		rep.setModel(model);
-		generationInstanceRepo("Save1.xml",model,rep);
+		ConstructFile.generationInstanceRepo("Save1.xml",model,rep);
 		System.out.println("---> INSTANCES :");
 		System.out.println(rep.exportListInstanceToXML());
-		Flotte flotteRestore = rep.restoreFlotte(rep.getInstance(1));
-		System.out.println(flotteRestore.toString());
+		Flotte flotte = (Flotte)rep.getInstance(1);
+		//Flotte flotteRestore = rep.restoreFlotte(rep.getInstance(1));
+		System.out.println(flotte.toString());
 		//createFile("Save1.xml", rep.exportListInstanceToXML());
 		//System.out.println(rep.export());
 		
 	}
 	
-	static void generationInstanceRepo(String fichier,Model model,Repository2 rep) {
-		Gestion_dom dom = new Gestion_dom(fichier);
-		Document document = dom.generer_document();
-		rep.MaterializeInstance(document);
-		//MaterializeModel materializeModel = new MaterializeModel(document);
-		//return materializeModel.getResult();
-	}
+	
 	
 	static void Instanciation() {
-		Model racine = generationModel();
+		Model racine = ConstructFile.generationModel(Constants.FILE_MODEL);
 		VisitorVerification verif = new VisitorVerification();
 		racine.accept(verif);
 		if(!verif.getResult()) {
@@ -75,15 +73,8 @@ public class ExecutionInstance {
 		//System.out.println("---> CODE :");
 		//System.out.println(v.getResult());
 		//extractionInstance(racine);
+		exportInstance(racine);
 		importInstance(racine);
-	}
-	
-	static Model generationModel() {
-		Model model = XMLtoModel(fichierModel);
-		GestionDependance dependances = XMLtoDependance(fichierDependance, model);
-		VisitorLiaison visitor = new VisitorLiaison(model,dependances);
-		model.accept(visitor);
-		return model;
 	}
 	
 	static Model XMLtoModel(String fichier){
@@ -98,19 +89,6 @@ public class ExecutionInstance {
 		Document document = dom.generer_document();
 		MaterializeDependance materializeDependance = new MaterializeDependance(document,model);
 		return materializeDependance.getResult();
-	}
-	
-	static void createFile(String pathFile,String value) {
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(pathFile, "UTF-8");
-			writer.write(value);
-			writer.close();
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 
 }

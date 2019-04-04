@@ -1,4 +1,5 @@
 package genarate;
+import common.Constants;
 import dependance.DependanceClass;
 import dependance.DependancePrimitive;
 import model.Attribute;
@@ -65,6 +66,14 @@ public class VisitorGenerateConstructor implements Visitor{
 			attribute.accept(this);
 			result+=";\n";
 		}
+		result+="}\n";
+		
+		//fonction visitable
+		result+="@Override\r\n";
+		result+="public void accept(";
+		result+= Constants.VISITOR_MODEL_NAME;
+		result+= " v) {\r\n";
+		result+="v.visit(this);\r\n";
 		result+="}\n";
 	}
 

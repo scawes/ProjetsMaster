@@ -13,9 +13,10 @@ import model.attribute.simple.basic.AttrInteger;
 import model.attribute.simple.basic.AttrString;
 import model.heritage.HeritageEntity;
 import model.heritage.HeritageUndefind;
+import repository.Instance;
 
 public interface Visitor {
-
+	
 	void visit(Attribute attribute);
 
 	void visit(Model model);

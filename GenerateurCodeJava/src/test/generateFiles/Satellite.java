@@ -1,6 +1,6 @@
 package test.generateFiles;
 import test.generateFiles.Flotte;
-public class Satellite extends Flotte{
+public class Satellite extends Flotte implements VisitableModel{
 	String nom	= "space";
 	Satellite voisin;
 	Satellite voisin2;
@@ -12,6 +12,10 @@ this.nom	= nom;
 this.voisin	= voisin;
 this.voisin2	= voisin2;
 this.idSatellite	= idSatellite;
+}
+@Override
+public void accept(VisitorModel v) {
+v.visit(this);
 }
 public String getnom(){
 return nom;
